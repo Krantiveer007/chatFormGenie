@@ -328,7 +328,7 @@ export class ChatbotWidgetComponent {
         break;
       case 'save':
       case 'submit':
-      case 'questionAnswers':
+      case 'next':
         this.saveAsDraft(prediction);
         break;
       case 'languageChange':
