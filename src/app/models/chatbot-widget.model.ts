@@ -23,6 +23,7 @@ export interface MetaData {
 export interface PredictionPayload {
     category_id: number;
     category_type: string;
+    fieldType?: string;
     message?: string | Blob;
     file?: any;
 }

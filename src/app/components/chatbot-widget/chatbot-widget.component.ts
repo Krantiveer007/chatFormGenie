@@ -108,7 +108,7 @@ export class ChatbotWidgetComponent {
               botResponse.content = meta.fieldType;
               botResponse.contentProps = this.getMetaData(meta);
             } else {
-              this.setupPostParams(meta.category_id, meta.category_type);
+              this.setupPostParams(meta.category_id, meta.category_type, meta.fieldType);
             }
             this.messages.push(botResponse);
           });
@@ -160,10 +160,11 @@ export class ChatbotWidgetComponent {
         this.shouldScrollToBottom = true;
         this.scrollToBottom();
         if (this.chatForm.get('postParams')?.value) {
-          const { category_id, category_type } = this.chatForm.get('postParams').value;
+          const { category_id, category_type, fieldType } = this.chatForm.get('postParams').value;
           const params: PredictionPayload = {
             category_id,
             category_type,
+            fieldType,
             message: userMessage.content
           }
           const formData = new FormData();
@@ -234,10 +235,11 @@ export class ChatbotWidgetComponent {
           const audioUrl = this.createBlobUrl(blob);
           const audioMessage: Message = { content: blob, fromUser: true, timestamp: new Date(), contentProps: { audioUrl } };
           this.messages.push(audioMessage);
-          const { category_id, category_type } = this.chatForm.get('postParams').value;
+          const { category_id, category_type, fieldType } = this.chatForm.get('postParams').value;
           const params: PredictionPayload = {
             category_id,
             category_type,
+            fieldType,
             file: new File([blob], 'audio.wav', { type: 'audio/wav' })
           }
           const formData = new FormData();
@@ -359,7 +361,7 @@ export class ChatbotWidgetComponent {
     } else {
       this.chatForm.addControl(category_type, new UntypedFormControl(''));
     }
-    this.setupPostParams(category_id, category_type);
+    this.setupPostParams(category_id, category_type, fieldType);
     const metaData = {
       customContent: {
         meta: [{
@@ -402,16 +404,18 @@ export class ChatbotWidgetComponent {
     return metaData;
   }
 
-  setupPostParams(category_id: number, category_type: string): void {
+  setupPostParams(category_id: number, category_type: string, fieldType: string): void {
     if (this.chatForm.controls['postParams']) {
       this.chatForm.get('postParams').setValue({
         category_id,
-        category_type
+        category_type,
+        fieldType
       });
     } else {
       this.chatForm.addControl('postParams', new UntypedFormControl({
         category_id,
-        category_type
+        category_type,
+        fieldType
       }));
     }
   }
