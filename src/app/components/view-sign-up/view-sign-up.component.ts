@@ -70,7 +70,13 @@ export class ViewSignUpComponent {
             value: item.value
           }
         })
-        this.metaData[0]['content'] = meta;
+        this.metaData = [
+          {
+            heading: 'Sign Up Details',
+            isActive: true,
+            content: meta
+          }
+        ];
       }
     });
   }
