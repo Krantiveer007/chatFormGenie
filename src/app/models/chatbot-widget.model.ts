@@ -2,6 +2,7 @@ export interface QueryPayload {
     category_id?: number;
     category_type?: string;
     command?: string;
+    predictedMessage?: string;
 }
 
 export interface QueryResponse {

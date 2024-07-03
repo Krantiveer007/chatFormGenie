@@ -210,12 +210,10 @@ export class ChatbotWidgetComponent {
       });
       const categoryDetails = {
         category_id: params.category_id,
-        category_type: params.category_type
+        category_type: params.category_type,
+        predictedMessage: params.predictedMessage
       };
-      if (params.category_type === 'general') {
-        categoryDetails.category_type = params.predictedMessage;
-        this.getQueries(categoryDetails);
-      }
+      this.getQueries(categoryDetails);
     }
   }
 
@@ -339,7 +337,8 @@ export class ChatbotWidgetComponent {
         this.getQueries({
           category_id: prediction.category_id,
           category_type: prediction.category_type,
-          command: prediction.command
+          command: prediction.command,
+          predictedMessage: prediction.predictedMessage
         });
         break;
       default:
