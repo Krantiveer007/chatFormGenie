@@ -97,10 +97,10 @@ export class ChatbotWidgetComponent {
   }
 
   getQueries(params?: QueryPayload): void {
-    this.showTypingIndicator();
+    // this.showTypingIndicator();
     this.chatbotService.getQueries(params).subscribe({
       next: (response: QueryResponse) => {
-        this.clearTypingIndicator();
+        // this.clearTypingIndicator();
         if (response.meta) {
           response.meta.forEach((meta: MetaData) => {
             let botResponse: Message = { content: meta.label, fromUser: false, timestamp: new Date() };
@@ -117,20 +117,20 @@ export class ChatbotWidgetComponent {
         }
       },
       error: (error) => {
-        this.clearTypingIndicator();
+        // this.clearTypingIndicator();
         this.handleErrorResponse();
       }
     });
   }
 
-  showTypingIndicator(): void {
-    let botResponse: Message = { content: '', fromUser: false, typing: true };
-    this.messages.push(botResponse);
-  }
+  // showTypingIndicator(): void {
+  //   let botResponse: Message = { content: '', fromUser: false, typing: true };
+  //   this.messages.push(botResponse);
+  // }
 
-  clearTypingIndicator(): void {
-    this.messages = this.messages.filter(item => !item.typing);
-  }
+  // clearTypingIndicator(): void {
+  //   this.messages = this.messages.filter(item => !item.typing);
+  // }
 
   ngAfterViewChecked() {
     if (this.messages.length > 0) {
@@ -260,10 +260,10 @@ export class ChatbotWidgetComponent {
   }
 
   postMessages(params: any) {
-    this.showTypingIndicator();
+    // this.showTypingIndicator();
     this.chatbotService.postMessages(params).subscribe({
       next: (response: PredictionResponseDraftPayload) => {
-        this.clearTypingIndicator();
+        // this.clearTypingIndicator();
         if (response) {
           let botResponse: Message = { content: response.predictedMessage, fromUser: false, timestamp: new Date() };
           this.messages.push(botResponse);
@@ -286,7 +286,7 @@ export class ChatbotWidgetComponent {
         }
       },
       error: (error) => {
-        this.clearTypingIndicator();
+        // this.clearTypingIndicator();
         this.handleErrorResponse();
       }
     })

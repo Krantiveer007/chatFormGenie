@@ -21,12 +21,13 @@
                     <div class="message-content" *ngIf="message.content">
                         <span class="name"> {{
                             message.fromUser ? '' : 'DPW Bot' }} </span>
-                        <span class="typing-indicator" *ngIf="message.typing">
+                        <!-- <span class="typing-indicator" *ngIf="message.typing">
                             <span></span><span></span><span></span>
-                        </span>
-                        <span class="text" *ngIf="!message.contentProps && !message.typing">{{ message.content }}</span>
+                        </span> -->
+                        <!-- !message.typing -->
+                        <span class="text" *ngIf="!message.contentProps">{{ message.content }}</span>
                         <span class="time">{{ message.timestamp | date:'HH:mm' }}</span>
-                        <ng-container *ngIf="message.contentProps && !message.typing">
+                        <ng-container *ngIf="message.contentProps">
                             <audio *ngIf="message.contentProps?.audioUrl" controls>
                                 <source [src]="message.contentProps?.audioUrl" type="audio/wav">
                                 Your browser does not support the audio element.
