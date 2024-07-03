@@ -129,7 +129,7 @@ export class ChatbotWidgetComponent {
   }
 
   clearTypingIndicator(): void {
-    this.messages.pop();
+    this.messages = this.messages.filter(item => !item.typing);
   }
 
   ngAfterViewChecked() {
