@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { InputTextboxSelectorComponent } from '../input-textbox-selector/input-textbox-selector.component';
 import { MaterialModule } from 'app/modules/material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 
 interface ContentProps {
   audioUrl?: string;
@@ -17,8 +18,9 @@ interface ContentProps {
 interface Message {
   content: string | Blob;
   fromUser: boolean;
-  timestamp: Date;
+  timestamp?: Date;
   contentProps?: ContentProps;
+  typing?: boolean;
 }
 
 @Component({
@@ -32,7 +34,15 @@ interface Message {
     BrowserAnimationsModule
   ],
   templateUrl: './chatbot-widget.component.html',
-  styleUrls: ['./chatbot-widget.component.scss']
+  styleUrls: ['./chatbot-widget.component.scss'],
+  animations: [
+    trigger('transitionAnimation', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateY(10px)' }),
+        animate('0.5s ease-in-out', style({ opacity: 1, transform: 'translateY(0)' }))
+      ])
+    ])
+  ]
 })
 export class ChatbotWidgetComponent {
   messages: Message[] = [
@@ -42,7 +52,7 @@ export class ChatbotWidgetComponent {
       timestamp: new Date(),
     },
     {
-      content: `Feel free to ask me any questions you have...`,
+      content: `Which template you want to proceed with?`,
       fromUser: false,
       timestamp: new Date(),
     }
@@ -71,11 +81,26 @@ export class ChatbotWidgetComponent {
     this.chatForm = this.fb.group({
       userInput: ['']
     });
+    this.messages.push({
+      content: `selectType`,
+      fromUser: false,
+      timestamp: new Date(),
+      contentProps: this.getMetaData({
+        "category_id": 23,
+        "category_type": "general",
+        "fieldType": 'selectType',
+        "label": "Template",
+        "options": ['Sign Up', 'Registration'],
+        "sequence": -1
+      })
+    });
   }
 
   getQueries(params?: QueryPayload): void {
+    this.showTypingIndicator();
     this.chatbotService.getQueries(params).subscribe({
       next: (response: QueryResponse) => {
+        this.clearTypingIndicator();
         if (response.meta) {
           response.meta.forEach((meta: MetaData) => {
             let botResponse: Message = { content: meta.label, fromUser: false, timestamp: new Date() };
@@ -92,9 +117,19 @@ export class ChatbotWidgetComponent {
         }
       },
       error: (error) => {
+        this.clearTypingIndicator();
         this.handleErrorResponse();
       }
     });
+  }
+
+  showTypingIndicator(): void {
+    let botResponse: Message = { content: '', fromUser: false, typing: true };
+    this.messages.push(botResponse);
+  }
+
+  clearTypingIndicator(): void {
+    this.messages.pop();
   }
 
   ngAfterViewChecked() {
@@ -107,9 +142,9 @@ export class ChatbotWidgetComponent {
   toggleChat() {
     this.isChatOpen = !this.isChatOpen;
     this.isWidgetAnimated = !this.isChatOpen;
-    if (this.isChatOpen) {
-      this.getQueries();
-    }
+    // if (this.isChatOpen) {
+    //   this.getQueries();
+    // }
   }
 
   sendMessage(customEventVal?: any) {
@@ -173,10 +208,14 @@ export class ChatbotWidgetComponent {
           this.handleErrorResponse();
         }
       });
-      this.getQueries({
+      const categoryDetails = {
         category_id: params.category_id,
         category_type: params.category_type
-      });
+      };
+      if (params.category_type === 'general') {
+        categoryDetails.category_type = params.predictedMessage;
+        this.getQueries(categoryDetails);
+      }
     }
   }
 
@@ -223,8 +262,10 @@ export class ChatbotWidgetComponent {
   }
 
   postMessages(params: any) {
+    this.showTypingIndicator();
     this.chatbotService.postMessages(params).subscribe({
       next: (response: PredictionResponseDraftPayload) => {
+        this.clearTypingIndicator();
         if (response) {
           let botResponse: Message = { content: response.predictedMessage, fromUser: false, timestamp: new Date() };
           this.messages.push(botResponse);
@@ -247,6 +288,7 @@ export class ChatbotWidgetComponent {
         }
       },
       error: (error) => {
+        this.clearTypingIndicator();
         this.handleErrorResponse();
       }
     })

@@ -9,21 +9,24 @@
 
 <div class="backdrop" *ngIf="isChatOpen" (click)="toggleChat()"></div>
 
-<div class="chat-container" *ngIf="isChatOpen" #chatContainerRef>
+<div class="chat-container" *ngIf="isChatOpen" #chatContainerRef [@transitionAnimation]>
     <form [formGroup]="chatForm">
         <div class="chat-header">
             Ask DPW
         </div>
         <div class="chat-content">
             <div class="messages" #messageContainer (scroll)="onScroll($event)">
-                <div class="message" *ngFor="let message of messages"
+                <div class="message" *ngFor="let message of messages" [@transitionAnimation]
                     [ngClass]="{ 'user-message': message.fromUser, 'bot-message': !message.fromUser }">
                     <div class="message-content" *ngIf="message.content">
                         <span class="name"> {{
                             message.fromUser ? '' : 'DPW Bot' }} </span>
-                        <span class="text" *ngIf="!message.contentProps">{{ message.content }}</span>
+                        <span class="typing-indicator" *ngIf="message.typing">
+                            <span></span><span></span><span></span>
+                        </span>
+                        <span class="text" *ngIf="!message.contentProps && !message.typing">{{ message.content }}</span>
                         <span class="time">{{ message.timestamp | date:'HH:mm' }}</span>
-                        <ng-container *ngIf="message.contentProps">
+                        <ng-container *ngIf="message.contentProps && !message.typing">
                             <audio *ngIf="message.contentProps?.audioUrl" controls>
                                 <source [src]="message.contentProps?.audioUrl" type="audio/wav">
                                 Your browser does not support the audio element.
@@ -39,18 +42,20 @@
             </div>
         </div>
         <div class="chat-input-container">
-            <button mat-icon-button (click)="record()" *ngIf="!isRecording">
+            <!-- <button mat-icon-button class="mic-btn" (click)="record()" *ngIf="!isRecording">
                 <span class="icon">
                     <img class="mic-icon" src="assets/dp-world-svgs/mic_on.svg" alt="record" />
                 </span>
-            </button>
+            </button> -->
             <button mat-icon-button *ngIf="isRecording" (click)="stopRecording()">
                 <span class="icon">
                     <img class="mic-icon animated-icon" src="assets/dp-world-svgs/mic_off.svg" alt="stop" />
                 </span>
             </button>
-            <textarea matInput autocomplete="off" formControlName="userInput" placeholder="Ask me anything! Press Shift+Enter to start a new line."
-                (input)="adjustTextareaHeight($event)" (keydown.enter)="sendMessage(); $event.preventDefault();" (keydown.shift.enter)="newLine($event)"></textarea>
+            <textarea matInput autocomplete="off" formControlName="userInput"
+                placeholder="Ask me anything! Press Shift+Enter to start a new line."
+                (input)="adjustTextareaHeight($event)" (keydown.enter)="sendMessage(); $event.preventDefault();"
+                (keydown.shift.enter)="newLine($event)"></textarea>
             <button mat-icon-button type="button" (click)="sendMessage()">
                 ➤
             </button>
@@ -61,7 +66,7 @@
 <!-- assets/dp-world-svgs/Artificial Intelligence.svg -->
 
 <ng-template #customContent let-sectionDetails="sectionDetails" let-conditionDetails="conditionDetails">
-    <app-input-textbox-selector [inputSectionDetails]="sectionDetails"
-        [inputConditionDetails]="conditionDetails" (callBack)="handleInputFieldsEmitEvent($event)">
+    <app-input-textbox-selector [inputSectionDetails]="sectionDetails" [inputConditionDetails]="conditionDetails"
+        (callBack)="handleInputFieldsEmitEvent($event)">
     </app-input-textbox-selector>
 </ng-template>
