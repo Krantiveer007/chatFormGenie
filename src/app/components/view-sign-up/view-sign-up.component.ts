@@ -61,19 +61,16 @@ export class ViewSignUpComponent {
   // ];
   constructor(private fb: FormBuilder,
     private chatbotService: ChatbotWidgetService) {
-    this.chatbotService.signupMetaData.subscribe((instance: any) => {
+    this.chatbotService.signupMetaData.subscribe((instance: any[]) => {
       if (instance) {
-        const meta = {
-          isDisabled: true,
-          label: instance.label,
-          value: instance.value
-        }
-        const {content} = this.metaData[0].content;
-        if (content?.length) {
-          this.metaData[0].content.push(meta);
-        } else {
-          this.metaData[0]['content'] = [meta];
-        }
+        const meta = instance.map((item) => {
+          return {
+            isDisabled: true,
+            label: item.label,
+            value: item.value
+          }
+        })
+        this.metaData[0]['content'] = meta;
       }
     });
   }

@@ -714,4 +714,10 @@ export class ChatbotWidgetComponent {
     };
     this.messages.push(botResponse);
   }
+
+  newLine(event: KeyboardEvent): void {
+    const userInputVal = this.chatForm.get('userInput').value;
+    this.chatForm.get('userInput').patchValue(userInputVal + '\n');
+    event.preventDefault();
+  }
 }

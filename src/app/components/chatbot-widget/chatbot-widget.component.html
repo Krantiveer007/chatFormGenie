@@ -49,8 +49,8 @@
                     <img class="mic-icon animated-icon" src="assets/dp-world-svgs/mic_off.svg" alt="stop" />
                 </span>
             </button>
-            <textarea matInput autocomplete="off" formControlName="userInput" placeholder="Type your message"
-                (input)="adjustTextareaHeight($event)"></textarea>
+            <textarea matInput autocomplete="off" formControlName="userInput" placeholder="Ask me anything! Press Shift+Enter to start a new line."
+                (input)="adjustTextareaHeight($event)" (keydown.enter)="sendMessage(); $event.preventDefault();" (keydown.shift.enter)="newLine($event)"></textarea>
             <button mat-icon-button type="button" (click)="sendMessage()">
                 ➤
             </button>
