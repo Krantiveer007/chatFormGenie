@@ -166,6 +166,7 @@ export class ChatbotWidgetComponent {
           if (response) {
             this.shouldScrollToBottom = true;
             this.scrollToBottom();
+            this.chatbotService.signupMetaData.next(response);
           }
         },
         error: (error) => {
@@ -675,19 +676,6 @@ export class ChatbotWidgetComponent {
     } catch (err) { }
   }
 
-  fetchSubmittedDetails(): void {
-    this.chatbotService.getSubmittedForm().subscribe({
-      next: (response) => {
-        if (response) {
-          this.chatbotService.signupMetaData.next(response);
-        }
-      },
-      error: (error) => {
-        this.handleErrorResponse();
-      }
-    });
-  }
-
   // ngAfterViewInit() {
   //   this.initDrag();
   // }
@@ -719,7 +707,11 @@ export class ChatbotWidgetComponent {
   // }
 
   handleErrorResponse(): void {
-    let botResponse: Message = { content: 'Oops! It seems there was an issue processing your request. Please try again or contact support for assistance.', fromUser: false, timestamp: new Date() };
+    let botResponse: Message = {
+      content: `Oops! There's a problem on our end processing your request. Our team has been alerted and will assist shortly.`,
+      fromUser: false,
+      timestamp: new Date()
+    };
     this.messages.push(botResponse);
   }
 }

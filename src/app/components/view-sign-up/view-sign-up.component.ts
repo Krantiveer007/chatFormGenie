@@ -63,11 +63,16 @@ export class ViewSignUpComponent {
     private chatbotService: ChatbotWidgetService) {
     this.chatbotService.signupMetaData.subscribe((instance: any) => {
       if (instance) {
-        const content = this.metaData[0].content;
+        const meta = {
+          isDisabled: true,
+          label: instance.label,
+          value: instance.value
+        }
+        const {content} = this.metaData[0].content;
         if (content?.length) {
-          this.metaData[0].content.push(instance);
+          this.metaData[0].content.push(meta);
         } else {
-          this.metaData[0]['content'] = [instance];
+          this.metaData[0]['content'] = [meta];
         }
       }
     });
