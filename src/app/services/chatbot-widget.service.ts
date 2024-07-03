@@ -106,44 +106,44 @@ export class ChatbotWidgetService {
         return acc.set(paramKey as string, params[paramKey] as any);
       }, httpParams);
     }
-    // return this.httpClient.get<QueryResponse>(url, { params: httpParams });
-    return of({
-      meta: [
-        {
-          category_id: 123,
-          category_type: 'general',
-          fieldType: 'text',
-          label: 'Please choose the module type you want to proceed with',
-        },
-        {
-          category_id: 123,
-          category_type: 'general',
-          fieldType: 'text',
-          label: 'You can either select from below drop down or type in the input field below',
-        },
-        {
-          category_id: 123,
-          category_type: 'module',
-          fieldType: 'selectType',
-          label: 'Module Type',
-          options: ['Apply Finance', 'Credit Facility']
-        }
-      ]
-    });
+    return this.httpClient.get<QueryResponse>(url, { params: httpParams });
+    // return of({
+    //   meta: [
+    //     {
+    //       category_id: 123,
+    //       category_type: 'general',
+    //       fieldType: 'text',
+    //       label: 'Please choose the module type you want to proceed with',
+    //     },
+    //     {
+    //       category_id: 123,
+    //       category_type: 'general',
+    //       fieldType: 'text',
+    //       label: 'You can either select from below drop down or type in the input field below',
+    //     },
+    //     {
+    //       category_id: 123,
+    //       category_type: 'module',
+    //       fieldType: 'selectType',
+    //       label: 'Module Type',
+    //       options: ['Apply Finance', 'Credit Facility']
+    //     }
+    //   ]
+    // });
   }
 
 
   // in case of text typed, with response select
   postMessages(params: FormData): Observable<PredictionResponseDraftPayload> {
     const url: string = `${this.rootUrl}/predict`;
-    // return this.httpClient.post<PredictionResponseDraftPayload>(url, params);
-    return of({
-      predictedMessage: 'save the message',
-      command: 'save',
-      predictedMessageId: 12323,
-      category_id: 123,
-      category_type: 'exit'
-    });
+    return this.httpClient.post<PredictionResponseDraftPayload>(url, params);
+    // return of({
+    //   predictedMessage: 'save the message',
+    //   command: 'save',
+    //   predictedMessageId: 12323,
+    //   category_id: 123,
+    //   category_type: 'exit'
+    // });
     // for user confirmation if, always ask for Yes/No
     /*
       if (success) {
