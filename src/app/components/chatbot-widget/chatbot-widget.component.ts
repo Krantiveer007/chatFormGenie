@@ -7,7 +7,6 @@ import { ChatbotWidgetService } from '../../services/chatbot-widget.service';
 import { CommonModule } from '@angular/common';
 import { InputTextboxSelectorComponent } from '../input-textbox-selector/input-textbox-selector.component';
 import { MaterialModule } from 'app/modules/material.module';
-import { UiService } from 'app/services/ui.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 interface ContentProps {
@@ -66,8 +65,7 @@ export class ChatbotWidgetComponent {
   constructor(private fb: UntypedFormBuilder,
     private renderer: Renderer2,
     private cdr: ChangeDetectorRef,
-    private chatbotService: ChatbotWidgetService,
-    private uiService: UiService) { }
+    private chatbotService: ChatbotWidgetService) { }
 
   ngOnInit() {
     this.chatForm = this.fb.group({
@@ -94,8 +92,7 @@ export class ChatbotWidgetComponent {
         }
       },
       error: (error) => {
-        this.uiService.snackbar('API is failing')
-        console.log('Chatbot push API failure: ', error);
+        this.handleErrorResponse();
       }
     });
   }
@@ -127,18 +124,20 @@ export class ChatbotWidgetComponent {
         // Simulate bot response (replace with actual backend integration)
         this.shouldScrollToBottom = true;
         this.scrollToBottom();
-        const { category_id, category_type } = this.chatForm.get('postParams').value;
-        const params: PredictionPayload = {
-          category_id,
-          category_type,
-          message: userMessage.content
+        if (this.chatForm.get('postParams')?.value) {
+          const { category_id, category_type } = this.chatForm.get('postParams').value;
+          const params: PredictionPayload = {
+            category_id,
+            category_type,
+            message: userMessage.content
+          }
+          const formData = new FormData();
+          for (let param in params) {
+            formData.append(param, params[param]);
+          }
+          // formData.append('target_language', this.targetLanguage);
+          this.postMessages(formData);
         }
-        const formData = new FormData();
-        for (let param in params) {
-          formData.append(param, params[param]);
-        }
-        // formData.append('target_language', this.targetLanguage);
-        this.postMessages(formData);
       }
     }
   }
@@ -170,8 +169,7 @@ export class ChatbotWidgetComponent {
           }
         },
         error: (error) => {
-          this.uiService.snackbar('API is failing')
-          console.log('Chatbot push API failure: ', error);
+          this.handleErrorResponse();
         }
       });
       this.getQueries({
@@ -248,8 +246,7 @@ export class ChatbotWidgetComponent {
         }
       },
       error: (error) => {
-        this.uiService.snackbar('API is failing')
-        console.log('Chatbot push API failure: ', error);
+        this.handleErrorResponse();
       }
     })
   }
@@ -686,8 +683,7 @@ export class ChatbotWidgetComponent {
         }
       },
       error: (error) => {
-        this.uiService.snackbar('API is failing')
-        console.log('Chatbot push API failure: ', error);
+        this.handleErrorResponse();
       }
     });
   }
@@ -721,4 +717,9 @@ export class ChatbotWidgetComponent {
 
   //   this.renderer.listen(widgetButton, 'mousedown', onDragStart);
   // }
+
+  handleErrorResponse(): void {
+    let botResponse: Message = { content: 'Oops! It seems there was an issue processing your request. Please try again or contact support for assistance.', fromUser: false, timestamp: new Date() };
+    this.messages.push(botResponse);
+  }
 }
