@@ -1,0 +1,60 @@
+<form [formGroup]="form">
+    <div class="multi-select-container" fxFlex="100" *ngIf="controlName">
+        <mat-form-field class="customize-field  w-full" [appearance]="appearance" [matTooltip]="tooltipText">
+            <mat-label *ngIf="showLabel">
+                {{label}}</mat-label>
+            <mat-chip-grid #chipList aria-label="multi-select" formControlName="{{controlName}}"
+                [required]="isMandatory">
+                <div class="mat-chip-container" *ngIf="selectedOptions?.length" id="mat-chip-container-{{matChipId}}">
+                    <ng-container *ngIf="enableAllSelection && selectedOptions.length === allOptions.length">
+                        <mat-chip-row [selectable]="selectable" [removable]="removable"
+                            (removed)="remove(enableAllSelection)">
+                            All {{ enableAllSelection }} Selected
+                            <mat-icon matChipRemove *ngIf="!searchInputControl?.disabled">close</mat-icon>
+                        </mat-chip-row>
+                    </ng-container>
+                    <ng-container *ngIf="!enableAllSelection || selectedOptions.length !== allOptions.length">
+                        <mat-chip-row *ngFor="let chipVal of selectedOptions" [selectable]="selectable"
+                            [removable]="removable" (removed)="remove(chipVal)" id="{{matChipId}}" [value]="chipVal">
+                            {{displaySelectedOptions(chipVal)}}
+                            <mat-icon matChipRemove *ngIf="!searchInputControl?.disabled">close</mat-icon>
+                        </mat-chip-row>
+                        <span *ngIf="selectedOptions.length > 10">...</span>
+                    </ng-container>
+                </div>
+                <input autocomplete="off" [ngClass]="{'placeholder-visibility': selectedOptions?.length}" matInput
+                    [placeholder]="getPlaceholderVal()" #searchInput (input)="onMultiSelectInput()"
+                    [formControl]="searchInputControl" (blur)="onBlur($event)" [matAutocomplete]="auto"
+                    [matChipInputFor]="chipList" (click)="onInputClick($event)" id="{{matInputId}}"
+                    #trigger="matAutocompleteTrigger" [autocompletePosition]="trigger" *ngIf="isMultiSelectInputVisible"
+                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (keyup)="onKeyup($event)">
+            </mat-chip-grid>
+            <mat-autocomplete class="custom-autocomplete" #auto="matAutocomplete" (optionSelected)="selected($event)"
+                (opened)="autoSelectOpenedOrClosed('open')" (closed)="autoSelectOpenedOrClosed('close')">
+                <mat-option *ngIf="enableAllSelection">
+                    <div (click)="toggleSelection(enableAllSelection);$event.stopPropagation();">
+                        <mat-checkbox color="primary"
+                            [indeterminate]="selectedOptions.length > 0 && (selectedOptions.length !== allOptions.length)"
+                            [checked]="allOptionCheck" (click)="$event.stopPropagation()"
+                            (change)="toggleSelection(enableAllSelection)">
+                            Select All {{ enableAllSelection }}
+                        </mat-checkbox>
+                    </div>
+                </mat-option>
+                <mat-option *ngFor="let option of filteredOptions | async" [value]="option"
+                    [ngClass]="{'disable-pointer-events': option.disabled}">
+                    <div (click)="optionRowClicked($event, option)">
+                        <mat-checkbox [checked]="option.selected" color="primary" (change)="toggleSelection(option)"
+                            (click)="$event.stopPropagation()" [value]="option">
+                            {{ displaySelectedOptions(option) }}
+                        </mat-checkbox>
+                    </div>
+                </mat-option>
+            </mat-autocomplete>
+            <mat-error *ngIf="form?.get(controlName)?.invalid">
+                <span *ngIf="!isKycPage">Please select {{label}} </span>
+                <span *ngIf="isKycPage">Select is required </span>
+            </mat-error>
+        </mat-form-field>
+    </div>
+</form>

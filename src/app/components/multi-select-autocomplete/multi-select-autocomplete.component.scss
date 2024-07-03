@@ -1,0 +1,134 @@
+.multi-select-container {
+    display: block !important;
+    width: 100%;
+}
+
+.additional-selection {
+    opacity: 0.75;
+    font-size: 0.75em;
+}
+
+.select-container {
+    margin-top: 10px;
+}
+
+.mat-mdc-chip.mat-mdc-standard-chip {
+    color: #606060;
+    background-color: #f1f1f1;
+    border-radius: 3px;
+    padding: 10px !important;
+    min-height: 50px !important;
+    word-break: break-all;
+    height: auto;
+}
+
+.mat-mdc-chip.mat-mdc-standard-chip.mdc-evolution-chip--disabled {
+    color: rgba(0, 0, 0, 0.7);
+    opacity: 1;
+    font-weight: normal;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.mat-chip-container {
+    max-height: 200px;
+    overflow-y: auto;
+    margin: 10px 0px;
+}
+
+.mat-active {
+    background-color: #ffffff !important;
+}
+
+.mat-mdc-chip.mat-mdc-standard-chip .mat-mdc-chip-remove {
+    color: #3E3C90;
+    opacity: 1;
+}
+
+.mat-mdc-standard-chip.mat-chip-disabled .mat-mdc-chip-remove,
+.mat-mdc-standard-chip.mat-chip-disabled .mat-mdc-chip-trailing-icon {
+    opacity: 0.4;
+}
+
+::ng-deep .mat-mdc-tooltip {
+    margin: 0px !important;
+    margin-top: -10px !important;
+}
+
+.mat-mdc-input-element {
+    caret-color: #000000;
+}
+
+::ng-deep {
+    #multi-select-close-btn {
+        z-index: 9;
+        border-style: unset;
+    }
+
+    .increase-margin {
+        margin-top: 60px !important;
+    }
+
+    .decrease-margin {
+        margin-top: -55px !important;
+    }
+
+    .remove-margin {
+        margin-top: 0 !important;
+    }
+
+    .customize-field {
+
+        &.mat-form-field-disabled,
+        &.gray {
+            .mat-mdc-form-field-flex {
+                pointer-events: auto;
+            }
+        }
+    }
+
+    .mat-mdc-autocomplete-panel {
+        box-shadow: 0px 2px 4px -1px rgb(0 0 0 / 20%), 0px 4px 5px 0px rgb(0 0 0 / 14%),
+            0px 1px 10px 5px rgb(0 0 0 / 12%) !important;
+    }
+
+    .mini-close-btn {
+        position: absolute !important;
+        margin-top: -12px !important;
+        right: -5px !important;
+        background-color: #3E3C90 !important;
+        color: #fff !important;
+        font-size: 12px;
+        font-weight: 500;
+        border-radius: 50%;
+        height: 24px;
+        width: 24px;
+        flex-shrink: 0;
+
+        .mat-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 16px;
+            height: 16px;
+            width: 16px;
+        }
+    }
+
+    .mat-chip-container {
+        max-height: 200px;
+        width: 100%;
+        overflow-y: auto;
+        margin: 10px 0px;
+    }
+}
+
+.disable-pointer-events {
+    pointer-events: none;
+    color: rgba(0, 0, 0, .38);
+}
+
+.placeholder-visibility.mdc-text-field__input::placeholder {
+    opacity: 1;
+}

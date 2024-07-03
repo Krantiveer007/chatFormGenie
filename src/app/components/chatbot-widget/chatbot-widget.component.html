@@ -1,0 +1,67 @@
+<div class="widget-button">
+    <button mat-icon-button (click)="toggleChat()">
+        <span class="icon">
+            <img class="ai-icon" src="assets/dp-world-svgs/chatbot.svg" alt="Ask DPW"
+                [ngClass]="{'animated-icon': isWidgetAnimated}" />
+        </span>
+    </button>
+</div>
+
+<div class="backdrop" *ngIf="isChatOpen" (click)="toggleChat()"></div>
+
+<div class="chat-container" *ngIf="isChatOpen" #chatContainerRef>
+    <form [formGroup]="chatForm">
+        <div class="chat-header">
+            Ask DPW
+        </div>
+        <div class="chat-content">
+            <div class="messages" #messageContainer (scroll)="onScroll($event)">
+                <div class="message" *ngFor="let message of messages"
+                    [ngClass]="{ 'user-message': message.fromUser, 'bot-message': !message.fromUser }">
+                    <div class="message-content" *ngIf="message.content">
+                        <span class="name"> {{
+                            message.fromUser ? '' : 'DPW Bot' }} </span>
+                        <span class="text" *ngIf="!message.contentProps">{{ message.content }}</span>
+                        <span class="time">{{ message.timestamp | date:'HH:mm' }}</span>
+                        <ng-container *ngIf="message.contentProps">
+                            <audio *ngIf="message.contentProps?.audioUrl" controls>
+                                <source [src]="message.contentProps?.audioUrl" type="audio/wav">
+                                Your browser does not support the audio element.
+                            </audio>
+                            <ng-container *ngIf="message.contentProps?.customContent">
+                                <ng-container
+                                    *ngTemplateOutlet="customContent; context: {sectionDetails: message.contentProps.customContent.meta, conditionDetails: message.contentProps.customContent.conditions}">
+                                </ng-container>
+                            </ng-container>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="chat-input-container">
+            <button mat-icon-button (click)="record()" *ngIf="!isRecording">
+                <span class="icon">
+                    <img class="mic-icon" src="assets/dp-world-svgs/mic_on.svg" alt="record" />
+                </span>
+            </button>
+            <button mat-icon-button *ngIf="isRecording" (click)="stopRecording()">
+                <span class="icon">
+                    <img class="mic-icon animated-icon" src="assets/dp-world-svgs/mic_off.svg" alt="stop" />
+                </span>
+            </button>
+            <textarea matInput autocomplete="off" formControlName="userInput" placeholder="Type your message"
+                (input)="adjustTextareaHeight($event)"></textarea>
+            <button mat-icon-button type="button" (click)="sendMessage()">
+                ➤
+            </button>
+        </div>
+    </form>
+</div>
+
+<!-- assets/dp-world-svgs/Artificial Intelligence.svg -->
+
+<ng-template #customContent let-sectionDetails="sectionDetails" let-conditionDetails="conditionDetails">
+    <app-input-textbox-selector [inputSectionDetails]="sectionDetails"
+        [inputConditionDetails]="conditionDetails" (callBack)="handleInputFieldsEmitEvent($event)">
+    </app-input-textbox-selector>
+</ng-template>

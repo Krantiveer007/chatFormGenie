@@ -1,0 +1,102 @@
+.field-label {
+    font-weight: bold;
+    font-size: 12px;
+    color: #6a6a6d;
+}
+
+.highlight-class {
+    background-color: #e3f2fd;
+}
+
+.error-message-1 {
+    color: red;
+}
+
+.mat-icon-btn {
+    margin-top: -20px;
+}
+
+.mat-icon-btn {
+    color: #3e3c90;
+    font-size: 12px;
+
+    mat-icon {
+        height: 18px;
+        width: 18px;
+        font-size: 18px;
+    }
+}
+
+.suffix-prefix-wb {
+    white-space: nowrap;
+}
+
+.faded-label {
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.bold-value {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 20px;
+}
+
+::ng-deep {
+    .radio-dark-color {
+        .mat-mdc-radio-button
+            .mdc-radio
+            .mdc-radio__native-control:enabled
+            + .mdc-radio__background
+            .mdc-radio__inner-circle,
+        .mat-mdc-radio-button
+            .mdc-radio
+            .mdc-radio__native-control:enabled:checked
+            + .mdc-radio__background
+            .mdc-radio__outer-circle {
+            border-color: #000000;
+        }
+    }
+    .field-invalid {
+        .mdc-notched-outline__trailing {
+            border-color: red !important;
+        }
+        .mdc-notched-outline__notch {
+            border-color: red !important;
+        }
+        .mdc-notched-outline__leading {
+            border-color: red !important;
+        }
+        .mdc-floating-label {
+            color: red !important;
+        }
+        .mat-mdc-select-arrow {
+            color: red !important;
+        }
+    }
+    .appearance-fill {
+        .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+            background-color: rgb(255, 255, 255) !important;
+        }
+        .mat-mdc-select-value-text,
+        input[type="text"] {
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 20px;
+        }
+        .mat-mdc-form-field-icon-suffix,
+        .mat-mdc-form-field-icon-prefix {
+            padding-top: 16px !important;
+        }
+    }
+
+    .mat-mdc-checkbox .mdc-checkbox .mdc-checkbox__native-control[disabled]:checked ~ .mdc-checkbox__background {
+        background-color: #b0b0b0 !important;
+    }
+
+    .align-infix.mat-mdc-form-field .mat-mdc-form-field-infix {
+        position: initial;
+    }
+    .align-infix.mat-mdc-form-field .mdc-text-field--filled .mdc-floating-label {
+        left: 16px !important;
+    }
+}

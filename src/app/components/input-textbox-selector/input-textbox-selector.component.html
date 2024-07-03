@@ -1,0 +1,216 @@
+<ng-container *ngTemplateOutlet="addInputBoxes; context: {inputSectionDetails: inputSectionDetails}">
+</ng-container>
+
+<ng-template #addInputBoxes let-inputSections="inputSectionDetails" let-idx="indexVal">
+    <div *ngFor="let section of inputSections;index as i">
+        <ng-container *ngIf=" checkValue('isActive',section) !== false">
+            <div fxLayoutAlign="start start" fxLayout="column" fxFlex="100">
+                <div *ngIf="section?.heading" class="p-8" fxLayoutAlign="start start" fxLayout="row" fxFlex="100">
+                    <h3 class="card-head m-0"
+                        [ngClass]="section.class ? section.class : (followNewStyling ? 'new-card-head' : '')">
+                        {{checkValue('heading',
+                        section)}}</h3>
+                    <mat-icon class="m-l-16 cursor-pointer" [ngClass]="(section?.iconClass1 ? section?.iconClass1: '')"
+                        *ngIf="section?.icon1"
+                        (click)="section['clickedOn']=section?.icon1; checkValue('click', section)"
+                        [matTooltip]="section.tooltip1 ? section.tooltip1 :'' ">
+                        {{section.icon1}}</mat-icon>
+                    <mat-icon class="m-l-16 cursor-pointer" [ngClass]="(section?.iconClass2 ? section?.iconClass2: '')"
+                        *ngIf="section?.icon2"
+                        (click)="section['clickedOn']=section?.icon2; checkValue('click', section)">
+                        {{section.icon2}}</mat-icon>
+                </div>
+                <div class="w-full" fxLayout="row wrap" fxLayoutAlign="start start" fxFlex="0 0 auto">
+                    <ng-container *ngFor="let field of section.content;index as j">
+                        <ng-container *ngIf="!hasSubFields(field) && field.isDisabled; else second_case">
+                            <div class="p-8" *ngIf=" checkValue('isActive',field,[i,j]) !== false" fxLayout="row"
+                                fxLayoutAlign="start start" [fxFlex]="field?.width ? field.width : 33.33"
+                                [fxFlex.lt-md]="100" fxFlex.lt-sm="100">
+                                <ng-container
+                                    *ngTemplateOutlet="disabledInputBoxes; context: {inputFieldDetails: field, indexes: [i,j]}">
+                                </ng-container>
+                                <div class="tag-container p-b-8" fxLayoutAlign="start start" fxLayout="column wrap"
+                                    fxFlex="20"
+                                    *ngIf="section.class?.includes('colored-tag') && (section.content.length > 3 ? (j === 2) : (j === section.content.length - 1))">
+                                    <span [class]="section.class">{{section.class?.includes('green') ? 'ADDED' :
+                                        'REMOVED'}}</span>
+                                </div>
+                            </div>
+                        </ng-container>
+                        <ng-template #second_case>
+                            <ng-container *ngIf="hasSubFields(field); else third_case">
+                                <div *ngIf=" checkValue('isActive',field,[i,j]) !== false" fxLayoutAlign="start start"
+                                    fxFlex="100">
+                                    <div fxLayout="column" fxLayoutAlign="start stretch" fxFlex="100">
+                                        <div *ngFor="let subFieldArray of field.content;index as k" class="w-full"
+                                            [ngClass]="{'dashed-top': k > 0 }">
+                                            <div fxFlex="100"
+                                                *ngIf="subFieldArray.content && checkValue('isActive',field,[i,j,k]) !== false"
+                                                fxFlex.lt-md="100" fxLayout="row wrap">
+                                                <div *ngFor="let subField of subFieldArray.content; index as l"
+                                                    fxLayout="row wrap" fxLayoutAlign="start start"
+                                                    [fxFlex]="getFlexSize(subFieldArray)" fxFlex.lt-md="100">
+                                                    <div class="p-8" *ngIf="!subField.content && !subField.isDisabled"
+                                                        fxFlex="100" [fxFlex]="getFlexSize(subField)">
+                                                        <app-add-input-textbox [inputField]="subField" fxLayout="column"
+                                                            [inputConditionDetails]="inputConditionDetails"
+                                                            (callBack)="callBackMethod($event,[i,j,k,l], field?.formControlName)">
+                                                        </app-add-input-textbox>
+                                                    </div>
+                                                    <div *ngIf="subField.isDisabled" fxLayout="row" class="p-8">
+                                                        <ng-container
+                                                            *ngTemplateOutlet="disabledInputBoxes; context: {inputFieldDetails: subField, indexes: [i,j,k,l], parentFormControlName: field?.formControlName}">
+                                                        </ng-container>
+                                                    </div>
+
+                                                    <!-- 4th sub level : only support partial view -->
+                                                    <ng-container *ngIf="subField.content">
+                                                        <div *ngFor="let protonLevel of subField.content; index as m"
+                                                            fxLayout="row wrap" fxLayoutAlign="start start"
+                                                            [fxFlex]="getFlexSize(subField)" fxFlex.lt-md="100">
+                                                            <div *ngIf="!protonLevel.content && protonLevel.isDisabled"
+                                                                fxLayout="row" class="p-8">
+                                                                <ng-container
+                                                                    *ngTemplateOutlet="disabledInputBoxes; context: {inputFieldDetails: protonLevel, indexes: [i,j,k,l,m]}">
+                                                                </ng-container>
+                                                            </div>
+                                                            <!-- 5th sub level : only support partial view -->
+                                                            <ng-container *ngIf="protonLevel.content">
+                                                                <div *ngFor="let neutronLevel of protonLevel.content; index as m"
+                                                                    fxLayout="row wrap" fxLayoutAlign="start start"
+                                                                    [fxFlex]="getFlexSize(protonLevel)"
+                                                                    fxFlex.lt-md="100">
+                                                                    <div *ngIf="!neutronLevel.content && neutronLevel.isDisabled"
+                                                                        fxLayout="row" class="p-8">
+                                                                        <ng-container
+                                                                            *ngTemplateOutlet="disabledInputBoxes; context: {inputFieldDetails: neutronLevel, indexes: [i,j,k,l,m]}">
+                                                                        </ng-container>
+                                                                    </div>
+                                                                </div>
+                                                            </ng-container>
+                                                        </div>
+                                                    </ng-container>
+
+                                                </div>
+                                            </div>
+                                            <div *ngIf="!subFieldArray.content && subFieldArray.isDisabled"
+                                                fxLayout="row" class="p-8">
+                                                <ng-container
+                                                    *ngTemplateOutlet="disabledInputBoxes; context: {inputFieldDetails: subFieldArray, indexes: [i,j,k]}">
+                                                </ng-container>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </ng-template>
+
+                        <ng-template #third_case>
+                            <ng-container *ngIf="!hasSubFields(field)">
+                                <div class="p-8" *ngIf=" checkValue('isActive',field) !== false" fxLayout="row"
+                                    fxLayoutAlign="start start" [fxFlex]="field?.width ? field.width : 33.33"
+                                    [fxFlex.lt-md]="field?.width ? field.width*2 : 50" fxFlex.lt-sm="100">
+
+                                    <app-add-input-textbox fxLayout="column" fxFlex="100" [inputField]="field"
+                                        [inputConditionDetails]="inputConditionDetails"
+                                        (callBack)="callBackMethod($event,[i,j])">
+                                    </app-add-input-textbox>
+                                    <div class="tag-container p-8" fxLayoutAlign="start start" fxLayout="column wrap"
+                                        fxFlex="20"
+                                        *ngIf="section.class?.includes('colored-tag') && (section.content.length > 3 ? (j === 2) : (j === section.content.length - 1))">
+                                        <span [class]="section.class">{{section.class?.includes('green') ? 'ADDED' :
+                                            'REMOVED'}}</span>
+                                    </div>
+                                    <div *ngIf="field?.icon1" class="p-x-4">
+                                        <mat-icon [ngClass]="field.iconClass1 ? field.iconClass1 : ''"
+                                            [matTooltip]="field.iconToolTip1 ? field.iconToolTip1 :'' ">
+                                            {{field.icon1}}
+                                        </mat-icon>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </ng-template>
+                    </ng-container>
+                    <button *ngIf="section.enableDelete && i > 1" mat-icon-button class="delete-button p-l-24"
+                        (click)="deleteSection(i)">
+                        <mat-icon>delete_outline</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+</ng-template>
+
+<ng-template #disabledInputBoxes let-inputFieldDetails="inputFieldDetails" let-indexes="indexes"
+    let-parentFormControlName="parentFormControlName">
+    <div *ngIf="inputFieldDetails.matDivider" fxFlex="100">
+        <mat-divider class="divider"></mat-divider>
+    </div>
+    <!-- <div fxLayout="row" fxFlex="100" *ngIf="inputFieldDetails.fieldType === 'fileSelector'; else not_a_file">
+        <app-file-selector fxFlex="100" [uploaderTitle]="checkValue('uploaderTitle', inputFieldDetails)"
+            [showUploadMessage]="checkValue('showUploadMessage', inputFieldDetails)"
+            [sectionHeading]="checkValue('sectionHeading', inputFieldDetails)"
+            [documentDetails]="checkValue('documentDetails', inputFieldDetails, indexes)"
+            [label]="checkValue('label', inputFieldDetails)"
+            [documentClassification]="checkValue('documentClassification', inputFieldDetails)"
+            [emitActionEvents]="['delete', 'view', 'download']"
+            (fileAction)="callBackMethod({value: $event, actionType: 'fileAction', inputField: inputFieldDetails}, indexes)"
+            usedFor="view" followNewStyling="true">
+        </app-file-selector>
+    </div>
+
+    <ng-template *ngIf="inputFieldDetails.fieldType !== 'fileSelector'" #not_a_file> -->
+    <div class="w-full" *ngIf="!inputFieldDetails.matDivider" fxLayout="column" fxLayoutAlign="start stretch"
+        [ngClass]="inputFieldDetails.class ? inputFieldDetails.class : ''">
+        <div fxLayout="row" [ngClass]="followNewStyling ? 'new-field-label' : 'field-label'"
+            *ngIf="!inputFieldDetails.hideHeading">
+            {{checkValue('label', inputFieldDetails)}}
+        </div>
+        <div fxLayout="row wrap" *ngIf="inputFieldDetails.fieldType === 'checkboxBtn'">
+            <span *ngIf="inputFieldDetails.value">
+                <div [ngClass]="followNewStyling ? 'new-field-value' : 'field-value'">
+                    <span *ngIf="inputFieldDetails.showCheckBox">
+                        <mat-checkbox [ngClass]="inputFieldDetails.class ? inputFieldDetails.class : ''" disabled="true"
+                            [checked]="inputFieldDetails.checked"></mat-checkbox>
+                    </span>
+                    {{checkValue('value',inputFieldDetails, indexes,parentFormControlName)}}
+                </div>
+            </span>
+            <span *ngIf="!inputFieldDetails.value" fxLayout="column">
+                <div fxLayoutAlign="start start" fxLayout="row" fxFlex="100" fxFlex.lt-md="100"
+                    *ngFor="let option of checkValue('checkboxOptions',inputFieldDetails);index as m">
+                    <div class="m-y-8 field-value">{{ option?.name ? option.name : (option ? option: '--')}}</div>
+                </div>
+            </span>
+        </div>
+        <div fxLayout="row" *ngIf="inputFieldDetails.fieldType !== 'checkboxBtn'">
+            <div
+                *ngIf="inputFieldDetails.strikeValue && checkValue('strikeValue', inputFieldDetails, indexes, parentFormControlName) !== '--'">
+                <span class="tab"><s>{{checkValue('strikeValue', inputFieldDetails, indexes,
+                        parentFormControlName)}}</s></span>
+            </div>
+            <span *ngIf="inputFieldDetails.fieldType === 'multiSelectType'" fxLayout="row wrap">
+                <span fxLayout="row" class="m-4 p-4 grey-bg"
+                    *ngFor="let option of checkValue('selectedOptions',inputFieldDetails);index as m">
+                    <span [ngClass]="inputFieldDetails.class ? inputFieldDetails.class : ''"> {{
+                        option?.value ? option.value :( option ? option : '--')}} </span>
+                </span>
+            </span>
+            <div [ngClass]="followNewStyling ? 'new-field-value' : 'field-value'" class="field-value"
+                *ngIf="inputFieldDetails.fieldType !== 'multiSelectType'"> {{
+                getDisplayValue('value',
+                inputFieldDetails, indexes,
+                parentFormControlName)}}
+                <span *ngIf="inputFieldDetails.suffixValue">{{inputFieldDetails.suffixValue}}</span>
+            </div>
+            <div *ngIf="inputFieldDetails?.icon1" class="p-x-4">
+                <mat-icon [ngClass]="inputFieldDetails.iconClass1 ? inputFieldDetails.iconClass1 : ''"
+                    [matTooltip]="inputFieldDetails.iconToolTip1 ? inputFieldDetails.iconToolTip1 :'' ">
+                    {{inputFieldDetails.icon1}}
+                </mat-icon>
+            </div>
+        </div>
+
+    </div>
+    <!-- </ng-template> -->
+</ng-template>

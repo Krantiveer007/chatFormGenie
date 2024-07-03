@@ -1,0 +1,11 @@
+<div class="page-contain" fxLayout="column" fxFlex="100" *ngIf="metaData?.length">
+    <mat-card appearance="outlined" fxLayout="column" fxFlex="100">
+        <app-input-textbox-selector [inputSectionDetails]="metaData" followNewStyling="true">
+        </app-input-textbox-selector>
+    </mat-card>
+</div>
+<!-- <ng-container *ngIf="inProgress">
+    <div class="page-loader" fxLayoutAlign="center center">
+        <mat-spinner></mat-spinner>
+    </div>
+</ng-container> -->

@@ -1,0 +1,21 @@
+// Material Components Style Fix
+
+.mat-mdc-card {
+  margin-bottom: $gutter;
+}
+
+.mat-accordion {
+  display: block;
+  margin-bottom: $gutter;
+}
+
+.mat-mdc-list-base {
+  position: relative;
+}
+
+// Form horizontal
+.matero-form-horizontal {
+  .mat-mdc-form-field {
+    width: 100%;
+  }
+}

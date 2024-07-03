@@ -1,0 +1,234 @@
+<ng-container [ngSwitch]="inputField?.fieldType">
+    <ng-container *ngSwitchCase="'radioType'">
+        <span fxLayout="column" fxLayoutAlign="start stretch">
+            <span fxLayout="row" class="m-b-8" [class]="inputField.class">{{checkValue('label',inputField)}} <span
+                    *ngIf="inputField.toolTip"> <img class="m-l-8" src="/assets/dp-world-svgs/infoIcon.svg"
+                        [matTooltip]="checkValue('toolTip')"></span> </span>
+            <mat-radio-group fxLayout="row wrap" class="redio-custom-color" [class]="inputField.class1" color="primery"
+                aria-label="Select an option" (change)="inputField.change ?  methodCall($event.value, 'change') :''">
+                <span *ngFor="let val of inputField.radioOptions;index as idx">
+                    <mat-radio-button fxLayout="row" class="m-r-24 m-t-8" [value]="inputField?.radioValues[idx]"
+                        [checked]="checkValue('value') === inputField?.radioValues[idx] "> {{val}}
+                    </mat-radio-button>
+                </span>
+            </mat-radio-group>
+        </span>
+    </ng-container>
+    <ng-container *ngSwitchCase="'selectType'">
+        <ng-container *ngIf="!inputField.autoComplete">
+            <span [ngClass]="{'field-invalid': checkValue('showError')}"
+                [class]="inputField.class1? inputField.class1: ''">
+                <mat-form-field class="customize-field"
+                    [ngClass]="{'appearance-fill': inputField.appearance, 'align-infix':inputField.appearance && inputField.hasPrefix}"
+                    [appearance]="inputField.appearance ? inputField.appearance : 'outline'" fxFlex="100">
+                    <span class="p-r-4 suffix-prefix-wb" [ngClass]="{'bold-value':inputField.appearance }" matPrefix
+                        *ngIf="inputField.hasPrefix">{{checkValue('hasPrefix') +
+                        '\t'}}</span>
+                    <mat-label>{{checkValue('label')}}</mat-label>
+                    <mat-select panelClass="custom-select" disableOptionCentering [value]="checkValue('value')"
+                        (focusout)="inputField?.focusout ? methodCall($event.value, 'focusout'): ''"
+                        [required]="checkValue('required')? true : false"
+                        (selectionChange)="inputField?.selectionChange ? methodCall($event.value, 'selectionChange'):'' ">
+                        <mat-option *ngFor="let option of checkValue('dropDownValues')"
+                            [value]="option.key ? option.key: option">
+                            {{option.value ? option.value : option}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-hint class="error-message" *ngIf="checkValue('showError')">
+                        {{inputField.errorMessage}}
+                    </mat-hint>
+                    <span class="p-l-4 suffix-prefix-wb" [ngClass]="{'bold-value':inputField.appearance }" matSuffix
+                        *ngIf="inputField.hasSuffix">{{' '+
+                        checkValue('hasSuffix')}}</span>
+                </mat-form-field>
+            </span>
+        </ng-container>
+
+        <ng-container *ngIf="inputField.autoComplete">
+            <span [ngClass]="{'field-invalid': checkValue('showError')}"
+                [class]="inputField.class1? inputField.class1: ''">
+                <mat-form-field class="customize-field"
+                    [ngClass]="{'appearance-fill': inputField.appearance, 'align-infix':inputField.appearance && inputField.hasPrefix}"
+                    [appearance]="inputField.appearance ? inputField.appearance : 'outline'" fxFlex="100">
+                    <mat-label>{{checkValue('label')}}</mat-label>
+                    <input matInput type="text" maxlength="200" aria-label="Number" autocomplete="off"
+                        [value]="checkValue('value')"
+                        (keyup)="inputField?.keyup ? methodCall($event.target.value, 'keyup',$event):'' "
+                        [required]="checkValue('required')? true : false"
+                        (focusin)="inputField?.focusin ? methodCall($event.target.value, 'focusin',$event):'' "
+                        (focusout)="inputField?.focusout ? methodCall($event.target.value, 'focusout',$event):'' "
+                        (change)="inputField?.change ? methodCall($event.target.value, 'change',$event):'' "
+                        [matAutocomplete]="auto" #trigger="matAutocompleteTrigger" [autocompletePosition]="trigger">
+                    <mat-autocomplete class="custom-autocomplete" #auto="matAutocomplete"
+                        (optionSelected)="methodCall($event.option.value, 'optionSelected')">
+
+                        <mat-option *ngFor="let option of checkValue('filteredOptions')"
+                            [value]="(option.key && !inputField.setKeyValPair) ? option.key: option">
+                            {{option.value ? option.value : option}}
+                        </mat-option>
+
+                    </mat-autocomplete>
+                    <mat-hint class="error-message" *ngIf="checkValue('showError')">
+                        {{inputField.errorMessage}}
+                    </mat-hint>
+                    <span class="p-l-4 suffix-prefix-wb" [ngClass]="{'bold-value':inputField.appearance }" matSuffix>
+                        <img class="m-l-8" src="/assets/dp-world-svgs/Arrow-Down.svg"> </span>
+                </mat-form-field>
+            </span>
+        </ng-container>
+
+    </ng-container>
+    <ng-container *ngSwitchCase="'keyValueSelectType'">
+        <span [ngClass]="{'field-invalid': checkValue('showError')}" [class]="inputField.class1? inputField.class1: ''">
+            <mat-form-field class="customize-field"
+                [ngClass]="{'appearance-fill': inputField.appearance, 'align-infix':inputField.appearance && inputField.hasPrefix}"
+                [appearance]="inputField.appearance ? inputField.appearance : 'outline'" fxFlex="100">
+                <span class="p-r-4 suffix-prefix-wb" [ngClass]="{'bold-value':inputField.appearance }" matPrefix
+                    *ngIf="inputField.hasPrefix">{{checkValue('hasPrefix') +
+                    '\t'}}</span>
+                <mat-label>{{checkValue('label')}}</mat-label>
+                <mat-select panelClass="custom-select" disableOptionCentering [value]="checkValue('value')"
+                    (focusout)="inputField?.focusout ? methodCall($event.value, 'focusout'): ''"
+                    [required]="checkValue('required')? true : false"
+                    (selectionChange)="inputField?.selectionChange ? methodCall($event.value, 'selectionChange'):'' ">
+                    <mat-option *ngFor="let option of checkValue('dropDownValues')" [value]="option.key">
+                        {{option.value}}
+                    </mat-option>
+                </mat-select>
+                <mat-hint class="error-message" *ngIf="checkValue('showError')">
+                    {{inputField.errorMessage}}
+                </mat-hint>
+                <span class="p-l-4 suffix-prefix-wb" [ngClass]="{'bold-value':inputField.appearance }" matSuffix
+                    *ngIf="inputField.hasSuffix">{{' '+
+                    checkValue('hasSuffix')}}</span>
+            </mat-form-field>
+        </span>
+    </ng-container>
+    <ng-container *ngSwitchCase="'inputType'">
+        <span [ngClass]="{'field-invalid': checkValue('showError')}">
+            <mat-form-field class="customize-field"
+                [ngClass]="{'appearance-fill': inputField.appearance, 'align-infix':inputField.appearance && inputField.hasPrefix}"
+                [class]="inputField.class1 ? inputField.class1 : ''"
+                [appearance]="inputField.appearance ? inputField.appearance : 'outline'" fxFlex="100" fxFlex="row">
+                <mat-label>{{checkValue('label')}}</mat-label>
+                <span class="p-r-4 suffix-prefix-wb" [ngClass]="{'bold-value':inputField.appearance }" matPrefix
+                    *ngIf="inputField.hasPrefix">{{checkValue('hasPrefix') +
+                    '\t'}}</span>
+                <ng-container *ngIf="checkValue('commifiedInput')">
+                    <input matInput [type]="inputField.type" creditCurrency [min]="checkValue('min')"
+                        commifiedInput="restrictDecimal" title=""
+                        [negativeCommifiedInput]="inputField.negativeCommifiedInput ? inputField.negativeCommifiedInput : false "
+                        [inputType]="checkValue('inputType')" [attr.maxlength]="checkValue('maxlength')"
+                        [max]="checkValue('max')" [value]="checkValue('value')" [pattern]="checkValue('pattern')"
+                        [autocomplete]="checkValue('autocomplete')" [placeholder]="checkValue('placeholder')"
+                        (focusout)="inputField?.focusout ? methodCall($event.value, 'focusout'): ''"
+                        (input)=" inputField?.input ?  methodCall($event.target.value, 'input', $event):'' "
+                        (keyup)="inputField?.keyup ? methodCall($event.target.value, 'keyup',$event):'' "
+                        (keydown)="inputField?.keydown ? methodCall($event.target.value, 'keydown',$event):'' "
+                        (change)="inputField?.change ? methodCall($event.target.value, 'change'):'' "
+                        (blur)="inputField?.blur ? methodCall($event.value, 'blur'): ''"
+                        [required]="checkValue('required')? true : false" [matTooltip]="inputField.toolTip">
+                </ng-container>
+                <ng-container *ngIf="!checkValue('commifiedInput')">
+                    <input matInput [type]="inputField.type" creditCurrency [min]="checkValue('min')" title=""
+                        [style.width.px]="inputField.inputLength !== '' ? inputField.inputLength: 'auto'"
+                        [inputType]="checkValue('inputType')" [attr.maxlength]="checkValue('maxlength')"
+                        [max]="checkValue('max')" [value]="checkValue('value')" [pattern]="checkValue('pattern')"
+                        [autocomplete]="checkValue('autocomplete')" [placeholder]="checkValue('placeholder')"
+                        (focusin)="inputField?.focusin ? methodCall($event.value, 'focusin'): ''"
+                        (focusout)="inputField?.focusout ? methodCall($event.value, 'focusout'): ''"
+                        (input)=" inputField?.input ?  methodCall($event.target.value, 'input', $event):'' "
+                        (keyup)="inputField?.keyup ? methodCall($event.target.value, 'keyup',$event):'' "
+                        (keydown)="inputField?.keydown ? methodCall($event.target.value, 'keydown',$event):'' "
+                        (keypress)="inputField?.alphanumericCheck ? alphanumericCheck($event) : ''"
+                        (change)="inputField?.change ? methodCall($event.target.value, 'change'):'' "
+                        (blur)="inputField?.blur ? methodCall($event.value, 'blur'): ''"
+                        [readonly]="inputField?.readonly ? inputField.readonly : 'false'"
+                        [required]="checkValue('required')? true : false" [matTooltip]="inputField.toolTip">
+                </ng-container>
+                <span class="p-l-4 suffix-prefix-wb" [ngClass]="{'bold-value':inputField.appearance }" matSuffix
+                    *ngIf="inputField.hasSuffix">{{' '+
+                    checkValue('hasSuffix')}}</span>
+                <mat-hint [ngClass]="{'error-message-1': checkValue('showError')}">
+                    <span>
+                        {{ checkValue('showError') ? inputField.errorMessage :
+                        inputField.hintMessage}}
+                    </span>
+                </mat-hint>
+
+            </mat-form-field>
+        </span>
+    </ng-container>
+    <ng-container *ngSwitchCase="'dateType'">
+        <span [ngClass]="{'field-invalid': checkValue('showError')}" [class]="inputField.class1? inputField.class1: ''">
+            <mat-form-field class="customize-field" [ngClass]="{'appearance-fill': inputField.appearance}"
+                [appearance]="inputField.appearance ? inputField.appearance : 'outline'" fxFlex="100">
+                <mat-label>{{checkValue('label')}}</mat-label>
+                <input matInput [matDatepicker]="fromDatePicker" [min]="checkValue('min')" [max]="checkValue('max')"
+                    [value]="checkValue('value')" autocomplete="off"
+                    (focusout)="inputField?.focusout ? methodCall($event.value, 'focusout'): ''"
+                    (blur)="inputField?.blur ? methodCall($event.value, 'blur'): ''"
+                    [required]="checkValue('required')? true : false"
+                    (blur)=" inputField?.blur ?  methodCall($event.target.value, 'blur', $event):'' "
+                    (dateChange)="inputField?.dateChange ? methodCall($event.target.value, 'dateChange'):''"
+                    [readonly]="inputField.readonly ? 'true' : 'false'">
+                <mat-datepicker-toggle matSuffix [for]="fromDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #fromDatePicker></mat-datepicker>
+                <mat-hint [ngClass]="{'error-message-1': checkValue('showError')}">
+                    <span>
+                        {{ (checkValue('required') && checkValue('showError')) ? inputField.errorMessage :
+                        'DD/MM/YYYY'}}
+                    </span>
+                </mat-hint>
+            </mat-form-field>
+        </span>
+    </ng-container>
+    <ng-container *ngSwitchCase="'simpleType'">
+        <button mat-button class="border-btn" type="button" [ngClass]="inputField.class" fxLayoutAlign="center center"
+            (click)="inputField?.click ? methodCall($event.value, 'click'):''">
+            <span class="f-w-700 m-r-4">{{inputField.label}}</span>
+            <mat-icon>{{inputField.matIcon}}</mat-icon>
+        </button>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'checkboxBtn'">
+        <div fxFlex="row" class="field-label">
+            <h4 class="m-0">{{checkValue('label')}}</h4>
+        </div>
+        <div fxLayout="row wrap">
+            <div class="list-box" fxLayoutAlign="start start" fxLayout="row" fxFlex="100" fxFlex.lt-md="100"
+                *ngFor="let option of checkValue('checkboxOptions');index as m">
+                <mat-checkbox [class]="option.highlight ? 'highlight-class m-t-8':'m-t-8'" color="primary"
+                    (change)="inputField?.click ? methodCall(m, 'click', $event):''" [checked]="checkboxValueChecked(m)"
+                    [disabled]="option.isDisabled">
+                    {{option.name}}
+                </mat-checkbox>
+            </div>
+        </div>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'multiSelectType'">
+        <app-multi-select-autocomplete class="w-full" [label]="checkValue('label')"
+            [appearance]="checkValue('appearance')" [allOptions]="checkValue('allOptions')" calledFrom="inputSelector"
+            [isMandatory]="checkValue('required')" [matInputAndChipIds]="matInputAndChipIds"
+            [selectedOptions]="checkValue('selectedOptions')" [form]="checkValue('form')"
+            [controlName]="checkValue('formControlName')" [checkDuplicateSelection]="inputField.checkDuplicateSelection"
+            (optionSelected)="inputField.optionSelected ? checkValue('optionSelected') : ''"
+            (onKeyupEvent)="methodCall($event.target.value, 'keyup', $event)"
+            (othersOptionSelected)="methodCall($event, 'othersOptionSelection', $event)"
+            [compareKey]="checkValue('compareKey')" (onBlurEmit)="inputField.onBlurEmit ? checkValue('onBlurEmit') : ''">
+        </app-multi-select-autocomplete>
+    </ng-container>
+
+    <!-- <ng-container *ngSwitchCase="'fileSelector'">
+        <app-file-selector [uploaderTitle]="checkValue('uploaderTitle')"
+            [showUploadMessage]="checkValue('showUploadMessage')" [sectionHeading]="checkValue('sectionHeading')"
+            [documentDetails]="checkValue('documentDetails')" [label]="checkValue('label')"
+            [documentClassification]="checkValue('documentClassification')" [emitActionEvents]="['delete']"
+            (fileUploaded)="methodCall($event, 'fileUploaded')" (fileAction)="methodCall($event, 'fileAction')"
+            followNewStyling="true">
+        </app-file-selector>
+    </ng-container> -->
+
+    <ng-container *ngSwitchDefault>Button type not supported</ng-container>
+</ng-container>

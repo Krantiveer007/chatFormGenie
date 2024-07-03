@@ -1,0 +1,488 @@
+.widget-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+}
+
+.ai-icon {
+    width: 40px;
+    height: 40px;
+}
+
+.mic-icon {
+    width: 32px;
+    height: 32px;
+}
+
+
+.animated-icon {
+    animation: pulsate 1s infinite, scaleInOut 1s infinite, wiggle 0.5s infinite;
+    // animation: wiggle 0.5s infinite;
+    // animation: colorChange 2s infinite;
+    // animation: pulse 1.5s infinite;
+    // animation: bounce 2s infinite;
+    // animation: rotate 2s infinite linear;
+}
+
+.icon {
+    img {
+        border-radius: 50%;
+    }
+}
+
+.widget-button.button-no-animation .ai-icon {
+    animation: none;
+}
+
+@keyframes pulsate {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 69, 86, 0.7);
+    }
+
+    70% {
+        box-shadow: 0 0 10px 20px rgba(255, 69, 86, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 69, 86, 0);
+    }
+}
+
+@keyframes scaleInOut {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes bounce {
+
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+        transform: translateY(0);
+    }
+
+    40% {
+        transform: translateY(-15px);
+    }
+
+    60% {
+        transform: translateY(-7px);
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes colorChange {
+    0% {
+        filter: hue-rotate(0deg);
+    }
+
+    100% {
+        filter: hue-rotate(360deg);
+    }
+}
+
+@keyframes wiggle {
+
+    0%,
+    100% {
+        transform: rotate(-3deg);
+    }
+
+    50% {
+        transform: rotate(3deg);
+    }
+}
+
+.widget-button button {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #312A82;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.mdc-icon-button {
+    width: auto;
+    height: auto;
+}
+
+.widget-button button .icon {
+    font-size: 24px;
+    background: linear-gradient(90deg, #FF1E4A 0%, #FF4556 50%, #FF909A 100%);
+    -webkit-background-clip: text;
+    /* For WebKit browsers */
+    background-clip: text;
+    /* Standard property */
+    -webkit-text-fill-color: transparent;
+    /* For WebKit browsers */
+    color: transparent;
+    /* Standard property */
+}
+
+//   .widget-button .label {
+//     display: none; /* Hide the label */
+//   }
+
+
+.widget-button .label {
+    margin-left: 8px;
+    background: linear-gradient(90deg, #1E1343 0%, #312A82 50%, #5154B6 100%);
+    -webkit-background-clip: text;
+    /* For WebKit browsers */
+    background-clip: text;
+    /* Standard property */
+    -webkit-text-fill-color: transparent;
+    /* For WebKit browsers */
+    color: transparent;
+    /* Standard property */
+}
+
+.backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9998;
+    /* Ensure the backdrop is behind the chat container */
+}
+
+.chat-container {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    z-index: 9999;
+    background: linear-gradient(90deg, #5154B6 0%, #312A82 50%, #1E1343 100%);
+    color: #fff;
+    width: 500px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.chat-header {
+    padding: 10px;
+    text-align: left;
+    font-weight: bold;
+}
+
+.chat-content {
+    padding: 10px;
+    flex-grow: 1;
+    overflow-y: auto;
+    max-height: 400px;
+    /* Set your desired max height */
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.messages {
+    display: flex;
+    flex-direction: column;
+    max-height: 400px;
+    /* Example max height, adjust as needed */
+    overflow-y: auto;
+    /* Enable scrolling */
+
+    .message {
+        margin: 5px 0;
+        padding: 8px;
+        min-width: 100px;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 5px;
+        text-align: right;
+        width: fit-content;
+        align-self: flex-end;
+        white-space: pre-wrap;
+        /* Preserve whitespace and wrap text */
+        word-wrap: break-word;
+        /* Break long words */
+        word-break: break-word;
+        /* Break long words if needed */
+
+        .message-content {
+            position: relative;
+            padding: 8px 0px;
+        }
+
+        .message-content .name {
+            font-size: 12px;
+            color: rgba(255, 69, 86, 1);
+            position: absolute;
+            top: -10px;
+            left: -3px;
+            font-weight: bolder;
+        }
+
+        .message-content .text {
+            margin-top: 4px;
+        }
+
+        .message-content .time {
+            font-size: 8px;
+            color: #dfdfdf;
+            position: absolute;
+            bottom: -5px;
+            right: 0px;
+        }
+    }
+
+    .user-message {
+        align-self: flex-end;
+        text-align: right;
+        /* Example background color for user messages */
+    }
+
+    .bot-message {
+        align-self: flex-start;
+        text-align: left;
+        /* Example background color for bot messages */
+    }
+}
+
+
+
+.chat-input-container {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    width: 100%;
+
+    textarea {
+        border-radius: 4px;
+    }
+}
+
+.chat-input-container button {
+    margin-right: 10px;
+}
+
+.chat-input-container textarea {
+    flex-grow: 1;
+    padding: 5px;
+    border: none;
+    border-radius: 5px;
+    resize: none;
+    /* Prevent textarea resize */
+    min-height: 50px;
+    /* Adjust as needed */
+    max-height: 100px;
+    /* Set your desired max height */
+    overflow-y: auto;
+    /* Enable scrolling */
+}
+
+::ng-deep {
+    audio::-webkit-media-controls-panel {
+        background: linear-gradient(90deg, #5154B6 0%, #312A82 50%, #1E1343 100%);
+        color: #ffffff;
+        border: 1px solud #ffffff;
+    }
+
+    audio::-webkit-media-controls-play-button,
+    audio::-webkit-media-controls-pause-button,
+    audio::-webkit-media-controls-mute-button {
+        background-color: #ffffff;
+        border-radius: 50%;
+    }
+
+    .audio::-webkit-media-controls-enclosure {
+        display: none !important;
+    }
+
+    audio::-webkit-media-controls-current-time-display,
+    audio::-webkit-media-controls-time-remaining-display {
+        color: #ffffff !important;
+    }
+
+    audio::-webkit-media-controls-timeline {
+        background-color: #ffffff;
+        border-radius: 25px;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    audio::-webkit-media-controls-volume-slider {
+        background-color: #ffffff;
+        border-radius: 25px;
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+    audio::-webkit-media-controls-volume-slider::-webkit-slider-runnable-track {
+        background-color: #ccc !important;
+    }
+
+    audio::-webkit-media-controls-volume-slider::-webkit-slider-thumb {
+        background-color: #6c63ff !important;
+    }
+
+    audio::-moz-range-track {
+        background-color: #ccc !important;
+    }
+
+    audio::-moz-range-thumb {
+        background-color: #6c63ff !important;
+    }
+
+    /* Remove extra space on the right */
+    audio::-webkit-media-controls {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    // /* Styles for non-Webkit browsers (e.g., Firefox) */
+    // audio {
+    //     background-color: transparent !important;
+    // }
+
+    // audio::-webkit-media-controls-panel,
+    // audio::-webkit-media-controls-play-button,
+    // audio::-webkit-media-controls-volume-slider,
+    // audio::-webkit-media-controls-mute-button,
+    // audio::-webkit-media-controls-current-time-display,
+    // audio::-webkit-media-controls-time-remaining-display {
+    //     border-radius: 5px;
+    // }
+
+    // audio::-webkit-media-controls-play-button {
+    //     width: 30px;
+    //     height: 30px;
+    // }
+
+    // audio::-webkit-media-controls-volume-slider {
+    //     width: 80px;
+    // }
+
+    // audio::-webkit-media-controls-current-time-display,
+    // audio::-webkit-media-controls-time-remaining-display {
+    //     font-size: 12px;
+    // }
+
+    .chat-widget-form-fields {
+
+        .mdc-notched-outline__trailing,
+        .mdc-notched-outline__notch,
+        .mdc-notched-outline__leading,
+        .mdc-radio__outer-circle,
+        .mdc-radio__inner-circle {
+            border-color: #ffffff !important;
+        }
+
+        .mdc-text-field:not(.mdc-text-field--disabled) .mdc-text-field__input,
+        .mdc-floating-label,
+        .mat-mdc-select-arrow,
+        .mat-mdc-select-value,
+        .mdc-text-field--focused:not(.mdc-text-field--disabled) .mdc-floating-label,
+        .mat-mdc-form-field-hint,
+        .mat-datepicker-toggle,
+        .mat-datepicker-content .mat-calendar-next-button,
+        .mat-datepicker-content .mat-calendar-previous-button,
+        .mat-mdc-radio-button .mdc-form-field {
+            color: #ffffff !important;
+        }
+
+        .appearance-fill .mat-mdc-form-field-icon-suffix,
+        .appearance-fill .mat-mdc-form-field-icon-prefix {
+            padding: 0px !important;
+        }
+    }
+
+    .mat-mdc-checkbox .mdc-form-field {
+        color: #ffffff !important;
+    }
+
+    .custom-autocomplete {
+        .mat-mdc-checkbox .mdc-form-field {
+            color: #000000 !important;
+        }
+    }
+
+    .field-label {
+        font-size: 14px !important;
+        color: #ffffff !important;
+        text-align: left !important;
+    }
+
+    .mat-mdc-checkbox .mdc-checkbox .mdc-checkbox__native-control:enabled:checked~.mdc-checkbox__background,
+    .mat-mdc-checkbox .mdc-checkbox .mdc-checkbox__native-control:enabled:indeterminate~.mdc-checkbox__background,
+    .mat-mdc-checkbox .mdc-checkbox .mdc-checkbox__native-control[data-indeterminate=true]:enabled~.mdc-checkbox__background {
+        border-color: rgb(255, 69, 86) !important;
+        background-color: rgb(255, 69, 86) !important;
+    }
+
+    .redio-custom-color .mat-mdc-radio-button .mdc-radio .mdc-radio__native-control:enabled:checked+.mdc-radio__background .mdc-radio__outer-circle,
+    .redio-custom-color .mat-mdc-radio-button .mdc-radio .mdc-radio__native-control:enabled+.mdc-radio__background .mdc-radio__inner-circle {
+        border-color: rgb(255, 69, 86) !important;
+    }
+
+    .message {
+        .mat-mdc-checkbox .mdc-checkbox .mdc-checkbox__native-control:enabled:not(:checked):not(:indeterminate):not([data-indeterminate=true])~.mdc-checkbox__background {
+            border-color: #ffffff !important;
+        }
+    }
+
+    .mdc-text-field:not(.mdc-text-field--disabled) .mdc-text-field__input {
+        color: #ffffff !important;
+        caret-color: #ffffff !important;
+    }
+
+    .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__leading,
+    .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__notch,
+    .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__trailing {
+        border-color: #ffffff !important;
+    }
+
+    .mdc-text-field:not(.mdc-text-field--disabled) .mdc-floating-label {
+        color: #ffffff !important;
+    }
+
+    #multi-select-close-btn {
+        background-color: rgb(255, 69, 86) !important;
+        cursor: pointer;
+    }
+}

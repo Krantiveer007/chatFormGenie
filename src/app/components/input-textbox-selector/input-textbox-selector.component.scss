@@ -1,0 +1,188 @@
+.tab {
+    display: inline-block;
+    margin-right: 20px;
+    font-size: 15px;
+}
+
+.field-label {
+    font-weight: bold;
+    font-size: 12px;
+    color: #6a6a6d;
+}
+
+.field-value {
+    font-size: 15px;
+    word-break: break-word;
+}
+
+.new-field-label {
+    font-family: Pilat;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 20px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+
+.new-card-head {
+    font-family: Pilat Wide;
+    font-size: 14px;
+    font-weight: 900;
+    line-height: 20px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #3a3a42;
+}
+
+.new-field-value {
+    font-family: Pilat;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 20px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+
+.bold-value {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 20px;
+}
+
+.Credit-fac-details-header {
+    font-size: larger;
+}
+
+.insurace-headings {
+    color: #0f0f19;
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+
+.highlight-value {
+    background-color: #e3f2fd;
+    border-radius: 4px;
+    padding: 4px;
+}
+
+.strike-through {
+    .field-value {
+        text-decoration: line-through;
+    }
+}
+
+.add-tag {
+    background-color: #6fd520;
+    padding: 2px 8px;
+    border-radius: 4px;
+    color: #fff;
+}
+
+.remove-tag {
+    background-color: #ff5f5f;
+    padding: 2px 8px;
+    border-radius: 4px;
+    color: #fff;
+}
+
+.tag-container {
+    width: 50%;
+    justify-content: center;
+    align-items: center;
+    height: 50%;
+    display: flex;
+    font-size: small;
+    font-weight: 600;
+
+    span {
+        padding: 2px 8px;
+        border-radius: 4px;
+        color: #fff;
+    }
+
+    .green {
+        background-color: #6fd520;
+    }
+
+    .red {
+        background-color: #ff5f5f;
+    }
+}
+
+@media only screen and (max-width: 599px) {
+    .dashed-top {
+        border-top: 1px dashed #ddd !important;
+    }
+}
+
+.divider {
+    margin: 8px 0px;
+}
+
+.grey-bg {
+    background-color: #ebebf0;
+    white-space: nowrap;
+    color: #0f0f19 !important;
+    margin-left: 0 !important;
+    margin-right: 4px !important;
+    padding: 8px 4px !important;
+    border-radius: 4px;
+}
+
+.delete-button {
+    color: #ff2261;
+    margin: 10px;
+}
+
+::ng-deep {
+    .grey-highlight {
+        color: #3A3A42;
+        font-family: Pilat;
+        padding-bottom: 6px;
+        font-size: 16px !important;
+        font-weight: 300 !important;
+
+        .field-value {
+            font-size: 16px !important;
+        }
+    }
+
+    .dark-highlight {
+        font-size: 16px;
+        font-weight: 600;
+        padding-bottom: 8px;
+
+        .field-value {
+            font-size: 16px !important;
+        }
+    }
+
+    .grey-out {
+
+        .mat-mdc-checkbox .mdc-checkbox .mdc-checkbox__native-control[disabled]:not(:checked):not(:indeterminate):not([data-indeterminate=true])~.mdc-checkbox__background,
+        .mdc-checkbox__background,
+        .mdc-checkbox__checkmark {
+            background-color: #D5D5DD !important;
+            border-color: #D5D5DD !important;
+        }
+    }
+
+    s {
+        position: relative;
+        text-decoration: none;
+    }
+
+    s::after {
+        content: "";
+        position: absolute;
+        bottom: 45%;
+        height: 2px;
+        left: 0;
+        right: 0;
+        margin-left: -5px;
+        margin-right: -5px;
+        background-color: black;
+        transform: translateY(55%);
+    }
+}

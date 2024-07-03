@@ -1,0 +1,20 @@
+<div class="app-container">
+  <div class="overlay-container container-fluid" *ngIf="metaDataContent?.length === 0">
+    <div class="content-container">
+      <h2 class="text-uppercase">
+        DP World Form Genie
+      </h2>
+      <p>
+        Streamlining UI Form Creation and Providing Instant Support for Your Needs
+      </p>
+      <span>
+        (Click on below bot icon (<span class="icon">
+          <img class="ai-icon" src="assets/dp-world-svgs/chatbot.svg" alt="Ask DPW"/>
+        </span>) to proceed with demo.)
+      </span>
+    </div>
+  </div>
+  <router-outlet></router-outlet>
+  <app-chatbot-widget></app-chatbot-widget>
+  <app-view-sign-up></app-view-sign-up>
+</div>
