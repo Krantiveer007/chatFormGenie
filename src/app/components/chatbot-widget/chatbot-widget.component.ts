@@ -84,6 +84,8 @@ export class ChatbotWidgetComponent {
             if (meta.fieldType !== 'text') {
               botResponse.content = meta.fieldType;
               botResponse.contentProps = this.getMetaData(meta);
+            } else {
+              this.setupPostParams(meta.category_id, meta.category_type);
             }
             this.messages.push(botResponse);
           });
@@ -318,17 +320,7 @@ export class ChatbotWidgetComponent {
     } else {
       this.chatForm.addControl(category_type, new UntypedFormControl(''));
     }
-    if (this.chatForm.controls['postParams']) {
-      this.chatForm.get('postParams').setValue({
-        category_id,
-        category_type
-      });
-    } else {
-      this.chatForm.addControl('postParams', new UntypedFormControl({
-        category_id,
-        category_type
-      }));
-    }
+    this.setupPostParams(category_id, category_type);
     const metaData = {
       customContent: {
         meta: [{
@@ -369,6 +361,20 @@ export class ChatbotWidgetComponent {
     //   };
     // }
     return metaData;
+  }
+
+  setupPostParams(category_id: number, category_type: string): void {
+    if (this.chatForm.controls['postParams']) {
+      this.chatForm.get('postParams').setValue({
+        category_id,
+        category_type
+      });
+    } else {
+      this.chatForm.addControl('postParams', new UntypedFormControl({
+        category_id,
+        category_type
+      }));
+    }
   }
 
   private getMetaForFieldType(fieldType: string, label: string, key: string, optionVariableName?: string, defaultValue?: any): any {
