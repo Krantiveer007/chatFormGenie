@@ -762,12 +762,16 @@ export class ChatbotWidgetComponent {
   // }
 
   handleErrorResponse(): void {
-    let botResponse: Message = {
-      content: `Oops! There's a problem on our end processing your request. Our team has been alerted and will assist shortly.`,
-      fromUser: false,
-      timestamp: new Date()
-    };
-    this.messages.push(botResponse);
+    const lastMessageContent = this.messages[this.messages.length - 1].content;
+    
+    if (typeof(lastMessageContent) === 'string' && !lastMessageContent?.includes('Oops!')) {
+      let botResponse: Message = {
+        content: `Oops! There's a problem on our end processing your request. Our team has been alerted and will assist shortly.`,
+        fromUser: false,
+        timestamp: new Date()
+      };
+      this.messages.push(botResponse);
+    }
   }
 
   newLine(event: KeyboardEvent): void {

@@ -15,7 +15,7 @@
     word-break: break-word;
 }
 
-.new-field-label {
+.new-field-value {
     font-family: Pilat;
     font-size: 14px;
     font-weight: 300;
@@ -34,13 +34,14 @@
     color: #3a3a42;
 }
 
-.new-field-value {
+.new-field-label {
     font-family: Pilat;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 600;
     line-height: 20px;
     letter-spacing: 0em;
     text-align: left;
+    padding-bottom: 8px;
 }
 
 .bold-value {

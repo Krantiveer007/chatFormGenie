@@ -70,6 +70,6 @@
 
 <ng-template #customContent let-sectionDetails="sectionDetails" let-conditionDetails="conditionDetails">
     <app-input-textbox-selector [inputSectionDetails]="sectionDetails" [inputConditionDetails]="conditionDetails"
-        (callBack)="handleInputFieldsEmitEvent($event)">
+        (callBack)="handleInputFieldsEmitEvent($event)" followNewStyling="true">
     </app-input-textbox-selector>
 </ng-template>
