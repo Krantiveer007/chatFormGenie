@@ -200,7 +200,8 @@
     display: flex;
     flex-direction: column;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    border: 1px solid #312A82;
+    // border: 1px solid #312A82;
+    background-color: #F2F2F2;
 }
 
 .chat-header {
@@ -274,14 +275,15 @@
     .user-message {
         align-self: flex-end;
         text-align: right;
-        background: linear-gradient(90deg, #FF1E4A 0%, #FF4556 50%, #FF909A 100%);
+        background: linear-gradient(89.96deg, #D5D5DD 0.02%, #F5F3F5 99.96%);        
+        color: #0F0F19
         /* Example background color for user messages */
     }
 
     .bot-message {
         align-self: flex-start;
         text-align: left;
-        background: linear-gradient(90deg, #5154B6 0%, #312A82 50%, #1E1343 100%);
+        background: linear-gradient(90deg, #1E1343 0%, #312A82 50%, #5154B6 100%);
         /* Example background color for bot messages */
     }
 }
@@ -293,6 +295,7 @@
     align-items: center;
     padding: 10px;
     width: 100%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 2.2);
 
     textarea {
         border-radius: 4px;

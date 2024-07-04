@@ -190,6 +190,7 @@ export class ChatbotWidgetComponent {
       // const customEventVal: any = Object.values(customEvent).length
       //   ? Object.values(customEvent)[0]
       //   : '';
+      this.disablePreviousCustomMessages();
       const userMessage: Message = { content: params.predictedMessage, fromUser: true, timestamp: new Date() };
       if (calledFrom === 'queryResponse') {
         userMessage.content = 'Yes';
@@ -263,6 +264,7 @@ export class ChatbotWidgetComponent {
 
   postMessages(params: any) {
     // this.showTypingIndicator();
+    this.disablePreviousCustomMessages();
     this.chatbotService.postMessages(params).subscribe({
       next: (response: PredictionResponseDraftPayload) => {
         // this.clearTypingIndicator();
@@ -292,6 +294,14 @@ export class ChatbotWidgetComponent {
         this.handleErrorResponse();
       }
     })
+  }
+
+  disablePreviousCustomMessages(): void {
+    this.messages.forEach((item) => {
+      if (item.contentProps) {
+        item.contentProps.customContent.meta[0].content[0]['isDisabled'] = true;
+      }
+    });
   }
 
   actionOnPredictionConfirmation(prediction: PredictionResponseDraftPayload): void {

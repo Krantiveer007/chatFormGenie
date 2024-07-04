@@ -1,7 +1,7 @@
 <div class="widget-button">
     <button mat-icon-button (click)="toggleChat()">
         <span class="icon">
-            <img class="ai-icon" src="assets/dp-world-svgs/chatbot.svg" alt="Ask DPW"
+            <img class="ai-icon" src="assets/dp-world-svgs/chatbot-white.svg" alt="Ask DPW"
                 [ngClass]="{'animated-icon': isWidgetAnimated}" />
         </span>
     </button>
@@ -58,7 +58,9 @@
                 (input)="adjustTextareaHeight($event)" (keydown.enter)="sendMessage(); $event.preventDefault();"
                 (keydown.shift.enter)="newLine($event)"></textarea>
             <button mat-icon-button type="button" (click)="sendMessage()">
-                ➤
+                <span class="icon">
+                    <img class="mic-icon" src="assets/dp-world-svgs/forwardIcon.svg" alt="stop" />
+                </span>
             </button>
         </div>
     </form>

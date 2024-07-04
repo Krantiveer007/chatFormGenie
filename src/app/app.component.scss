@@ -1,5 +1,5 @@
 .app-container {
-    background-image: url("/assets/dp-world-svgs/peopleDiscussingGraphs_desktop.webp");
+    background-image: url("/assets/dp-world-svgs/manWithTablet_desktop.webp");
     background-repeat: no-repeat;
     background-size: cover;
     /* Ensure the background covers the entire container */
@@ -8,6 +8,7 @@
     height: 100vh;
     width: 100%;
     position: relative;
+
 
     /* Ensure the pseudo-element positions correctly */
     .overlay-container {
@@ -60,6 +61,7 @@
     width: 100%;
     transform: scale(-1);
     /* Flip the element */
+    // background: linear-gradient(89.96deg, #D5D5DD 0.02%, #F5F3F5 99.96%);
     background: transparent radial-gradient(closest-side at 50% 50%, rgba(51, 51, 51, 0) 0%, rgba(0, 0, 0, 0.552) 100%) 0% 0% no-repeat padding-box;
     opacity: 1;
 }
